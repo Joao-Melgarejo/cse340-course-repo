@@ -1,0 +1,21 @@
+{
+  "name": "cse340-service-network",
+  "version": "1.0.0",
+  "description": "CSE 340 Service Network - Week 1 learning activities",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "dev": "nodemon",
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=24.0.0"
+  },
+  "dependencies": {
+    "express": "^5.2.1",
+    "ejs": "^3.1.10"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.11"
+  }
+}
