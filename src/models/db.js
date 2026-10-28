@@ -4,11 +4,15 @@ if (!process.env.DB_URL) {
     throw new Error('DB_URL is required. Configure .env locally or the Render environment.');
 }
 
+
 const pool = new Pool({
     connectionString: process.env.DB_URL,
-    ssl: { rejectUnauthorized: process.env.DB_SSL_REJECT_UNAUTHORIZED !== 'false' },
+    ssl: process.env.DB_SSL_ENABLED === 'false'
+        ? false
+        : { rejectUnauthorized: process.env.DB_SSL_REJECT_UNAUTHORIZED !== 'false' },
     connectionTimeoutMillis: 10000
 });
+
 
 // Handle errors on idle clients as well as errors from individual queries.
 pool.on('error', (error) => {
