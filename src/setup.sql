@@ -1,4 +1,5 @@
--- W02 Middle of Week: run once against an empty course database.
+-- W02 complete setup: run once against an empty course database.
+-- For an existing W02 database, use migrations/w2-add-categories.sql instead.
 -- No DROP or TRUNCATE: existing data is never silently erased.
 BEGIN;
 
@@ -44,6 +45,42 @@ VALUES
     (3, 'Winter Clothing Sort', 'Sort donated clothing for community distribution.', 'UnityServe Donation Center', '2026-11-30'),
     (3, 'Charity Event Support', 'Set up tables and welcome guests at a charity event.', 'Town Community Hall', '2026-12-07');
 
+-- A project can have many categories, and a category can have many projects.
+CREATE TABLE public.category (
+    category_id SERIAL PRIMARY KEY,
+    name VARCHAR(100) NOT NULL UNIQUE CHECK (BTRIM(name) <> '')
+);
+
+CREATE TABLE public.project_category (
+    project_id INTEGER NOT NULL REFERENCES public.project (project_id),
+    category_id INTEGER NOT NULL REFERENCES public.category (category_id),
+    PRIMARY KEY (project_id, category_id)
+);
+
+INSERT INTO public.category (name)
+VALUES ('Environmental'), ('Educational'), ('Community Service'), ('Health and Wellness')
+ON CONFLICT (name) DO NOTHING;
+
+-- Resolve IDs from the actual rows, not assumed category or project IDs.
+-- Every existing project receives a primary category; some receive a second one.
+INSERT INTO public.project_category (project_id, category_id)
+SELECT p.project_id, c.category_id
+FROM public.project AS p
+CROSS JOIN public.category AS c
+WHERE c.name = CASE
+    WHEN p.title IN ('School Garden Beds', 'Urban Garden Planting', 'Composting Workshop',
+                     'Community Harvest', 'Seed Sharing Day', 'Water Wise Garden Care')
+        THEN 'Environmental'
+    WHEN p.title IN ('Library Shelf Installation', 'Community Tutoring')
+        THEN 'Educational'
+    WHEN p.title = 'Senior Companion Visit' THEN 'Health and Wellness'
+    ELSE 'Community Service'
+END
+OR (c.name = 'Educational' AND p.title IN
+    ('School Garden Beds', 'Composting Workshop', 'Water Wise Garden Care'))
+OR (c.name = 'Community Service' AND p.title = 'Senior Companion Visit')
+ON CONFLICT (project_id, category_id) DO NOTHING;
+
 COMMIT;
 
 -- Expected: 3 organizations, 15 projects, 5 projects per organization.
@@ -57,3 +94,12 @@ SELECT p.project_id, p.date, p.title, o.name AS organization_name
 FROM public.project AS p
 JOIN public.organization AS o ON p.organization_id = o.organization_id
 ORDER BY p.date, p.project_id;
+
+-- Expected on the sample database: 4 categories, 19 links, no uncategorized projects.
+SELECT category_id, name FROM public.category ORDER BY name, category_id;
+SELECT COUNT(*) AS category_links FROM public.project_category;
+SELECT p.project_id, p.title
+FROM public.project AS p
+WHERE NOT EXISTS (
+    SELECT 1 FROM public.project_category AS pc WHERE pc.project_id = p.project_id
+);
