@@ -7,10 +7,15 @@
     <link rel="stylesheet" href="/css/main.css">
 </head>
 <body>
-    <nav aria-label="Main navigation">
-        <ul>
-            <li><a href="/">Home</a></li>
-            <li><a href="/organizations">Organizations</a></li>
-            <li><a href="/projects">Projects</a></li>
-        </ul>
-    </nav>
+    <a class="skip-link" href="#main-content">Skip to main content</a>
+    <header class="site-header">
+        <a class="site-brand" href="/">CSE 340 <span>Service Network</span></a>
+        <nav aria-label="Main navigation">
+            <ul>
+                <li><a href="/"<% if (title === 'Home') { %> aria-current="page"<% } %>>Home</a></li>
+                <li><a href="/organizations"<% if (title === 'Our Partner Organizations') { %> aria-current="page"<% } %>>Organizations</a></li>
+                <li><a href="/projects"<% if (title === 'Service Projects') { %> aria-current="page"<% } %>>Projects</a></li>
+                <li><a href="/categories"<% if (title === 'Service Project Categories') { %> aria-current="page"<% } %>>Categories</a></li>
+            </ul>
+        </nav>
+    </header>
