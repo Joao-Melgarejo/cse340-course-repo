@@ -1,11 +1,22 @@
 <%- include('partials/header') %>
 <main id="main-content" tabindex="-1">
     <h1><%= title %></h1>
-    <p>Here are a few of our partner organizations:</p>
-    <ul class="organizations">
-        <li><img src="/images/brightfuture-logo.png" alt="BrightFuture Builders logo" width="100" height="100"> <span>BrightFuture Builders</span></li>
-        <li><img src="/images/greenharvest-logo.png" alt="GreenHarvest Growers logo" width="100" height="100"> <span>GreenHarvest Growers</span></li>
-        <li><img src="/images/unityserve-logo.png" alt="UnityServe Volunteers logo" width="100" height="116"> <span>UnityServe Volunteers</span></li>
-    </ul>
+    <p>Meet our partner organizations and find out how to contact them:</p>
+    <% if (organizations.length === 0) { %>
+        <p>No partner organizations are available yet.</p>
+    <% } else { %>
+        <ul class="organizations">
+            <% organizations.forEach(organization => { %>
+                <li>
+                    <img src="/images/<%= organization.logo_filename %>" alt="<%= organization.name %> logo" width="100">
+                    <div>
+                        <h2><%= organization.name %></h2>
+                        <p><%= organization.description %></p>
+                        <a href="mailto:<%= organization.contact_email %>"><%= organization.contact_email %></a>
+                    </div>
+                </li>
+            <% }); %>
+        </ul>
+    <% } %>
 </main>
 <%- include('partials/footer') %>

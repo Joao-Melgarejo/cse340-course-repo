@@ -1,7 +1,7 @@
 {
   "name": "cse340-service-network",
   "version": "1.0.0",
-  "description": "CSE 340 Service Network - Week 1 learning activities",
+  "description": "CSE 340 Service Network - Week 2 database activities",
   "type": "module",
   "main": "server.js",
   "scripts": {
@@ -13,7 +13,8 @@
   },
   "dependencies": {
     "express": "^5.2.1",
-    "ejs": "^3.1.10"
+    "ejs": "^3.1.10",
+    "pg": "^8.16.3"
   },
   "devDependencies": {
     "nodemon": "^3.1.11"
