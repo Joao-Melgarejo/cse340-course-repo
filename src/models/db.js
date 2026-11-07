@@ -13,8 +13,6 @@ const pool = new Pool({
     connectionTimeoutMillis: 10000
 });
 
-
-// Handle errors on idle clients as well as errors from individual queries.
 pool.on('error', (error) => {
     console.error('Unexpected database pool error:', error.code || 'UNKNOWN');
 });
