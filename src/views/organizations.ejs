@@ -10,7 +10,7 @@
                 <li>
                     <img src="/images/<%= organization.logo_filename %>" alt="<%= organization.name %> logo" width="100">
                     <div>
-                        <h2><%= organization.name %></h2>
+                        <h2><a href="/organization/<%= organization.organization_id %>"><%= organization.name %></a></h2>
                         <p><%= organization.description %></p>
                         <a href="mailto:<%= organization.contact_email %>"><%= organization.contact_email %></a>
                     </div>
