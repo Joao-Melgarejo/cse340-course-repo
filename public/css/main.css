@@ -249,3 +249,28 @@ pre {
   white-space: pre-wrap;
   overflow-wrap: anywhere;
 }
+
+/* Compact linked tags override the shared project-card list styles. */
+main .category-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 16px 0 0;
+}
+main .category-tags li {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+}
+.category-tags a {
+  display: inline-block;
+  padding: 8px 16px;
+  border: 1px solid var(--green);
+  border-radius: 999px;
+  background: #e6eee7;
+  font-weight: 600;
+}
+.category-tags a:hover {
+  background: #d5e6d8;
+}

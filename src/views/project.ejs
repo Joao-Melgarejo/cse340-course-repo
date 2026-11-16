@@ -5,6 +5,18 @@
     <p><strong>Date:</strong> <time datetime="<%= project.date %>"><%= new Date(project.date + 'T00:00:00Z').toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' }) %></time></p>
     <p><strong>Location:</strong> <%= project.location %></p>
     <p><strong>Organization:</strong> <a href="/organization/<%= project.organization_id %>"><%= project.organization_name %></a></p>
-    <p><a href="/projects">Back to upcoming service projects</a></p>
+    <section aria-labelledby="project-categories-heading">
+        <h2 id="project-categories-heading">Categories</h2>
+        <% if (categories.length === 0) { %>
+            <p>This project has no categories yet.</p>
+        <% } else { %>
+            <ul class="category-tags">
+                <% categories.forEach(category => { %>
+                    <li><a href="/category/<%= category.category_id %>"><%= category.name %></a></li>
+                <% }); %>
+            </ul>
+        <% } %>
+    </section>
+    <p class="back-link"><a href="/projects">Back to upcoming service projects</a></p>
 </main>
 <%- include('partials/footer') %>

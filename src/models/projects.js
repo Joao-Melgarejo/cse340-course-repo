@@ -67,9 +67,28 @@ const getProjectDetails = async (id) => {
   return result.rows[0] ?? null;
 };
 
+// Category details include all related projects, including past projects.
+const getProjectsByCategoryId = async (categoryId) => {
+  const result = await db.query(
+    `
+        SELECT p.project_id, p.organization_id, p.title, p.description, p.location,
+               TO_CHAR(p.date, 'YYYY-MM-DD') AS date,
+               o.name AS organization_name
+        FROM public.project AS p
+        JOIN public.project_category AS pc ON p.project_id = pc.project_id
+        JOIN public.organization AS o ON p.organization_id = o.organization_id
+        WHERE pc.category_id = $1
+        ORDER BY p.date, p.project_id;
+    `,
+    [categoryId],
+  );
+  return result.rows;
+};
+
 export {
   getAllProjects,
   getProjectsByOrganizationId,
   getUpcomingProjects,
   getProjectDetails,
+  getProjectsByCategoryId,
 };
