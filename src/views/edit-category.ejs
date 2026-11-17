@@ -1,0 +1,14 @@
+<%- include('partials/header') %>
+<main id="main-content" tabindex="-1">
+    <h1><%= title %></h1>
+    <form action="/edit-category/<%= category.category_id %>" method="POST" class="data-form">
+        <div class="form-group">
+            <label for="name">Category Name</label>
+            <input type="text" id="name" name="name" maxlength="100" required value="<%= category.name %>" aria-describedby="name-help">
+            <small id="name-help">Required. Use 3 to 100 characters.</small>
+        </div>
+        <button type="submit">Save Category</button>
+    </form>
+    <p class="back-link"><a href="/category/<%= category.category_id %>">Cancel</a></p>
+</main>
+<%- include('partials/footer') %>

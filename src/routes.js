@@ -24,6 +24,11 @@ import {
   showCategoryDetailsPage,
   showAssignCategoriesForm,
   processAssignCategoriesForm,
+  categoryValidation,
+  showNewCategoryForm,
+  processNewCategoryForm,
+  showEditCategoryForm,
+  processEditCategoryForm,
 } from "./controllers/categories.js";
 import { testErrorPage } from "./controllers/errors.js";
 import { validateId } from "./middleware/validate-id.js";
@@ -37,6 +42,15 @@ router.get("/projects", showProjectsPage);
 router.get("/project/:id", validateId, showProjectDetailsPage);
 router.get("/categories", showCategoriesPage);
 router.get("/category/:id", validateId, showCategoryDetailsPage);
+router.get("/new-category", showNewCategoryForm);
+router.post("/new-category", categoryValidation, processNewCategoryForm);
+router.get("/edit-category/:id", validateId, showEditCategoryForm);
+router.post(
+  "/edit-category/:id",
+  validateId,
+  categoryValidation,
+  processEditCategoryForm,
+);
 router.get("/new-organization", showNewOrganizationForm);
 router.post(
   "/new-organization",
