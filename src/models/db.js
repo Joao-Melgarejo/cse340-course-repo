@@ -6,11 +6,15 @@ if (!process.env.DB_URL) {
   );
 }
 
+const sslEnabled = process.env.DB_SSL_ENABLED !== "false";
+
 const pool = new Pool({
   connectionString: process.env.DB_URL,
-  ssl: {
-    rejectUnauthorized: process.env.DB_SSL_REJECT_UNAUTHORIZED !== "false",
-  },
+  ssl: sslEnabled
+    ? {
+        rejectUnauthorized: process.env.DB_SSL_REJECT_UNAUTHORIZED !== "false",
+      }
+    : false,
   connectionTimeoutMillis: 10000,
 });
 
