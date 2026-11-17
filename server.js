@@ -1,4 +1,6 @@
 import express from "express";
+import session from "express-session";
+import flash from "./src/middleware/flash.js";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
 import db, { testConnection } from "./src/models/db.js";
@@ -28,7 +30,32 @@ app.use((req, res, next) => {
   next();
 });
 
+// Static requests do not need sessions and must not consume flash messages.
 app.use(express.static(path.join(currentDirectory, "public")));
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+
+const sessionSecret = process.env.SESSION_SECRET;
+if (!sessionSecret || sessionSecret.length < 32) {
+  throw new Error(
+    "SESSION_SECRET must contain at least 32 characters. Configure the environment before starting.",
+  );
+}
+if (nodeEnv === "production") app.set("trust proxy", 1);
+app.use(
+  session({
+    secret: sessionSecret,
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      maxAge: 60 * 60 * 1000,
+      httpOnly: true,
+      sameSite: "lax",
+      secure: nodeEnv === "production",
+    },
+  }),
+);
+app.use(flash);
 app.use(router);
 
 // Unmatched routes must explicitly enter the error-handling pipeline.
@@ -65,10 +92,12 @@ app.use((error, req, res, next) => {
   });
 });
 
+let server;
+
 // Verify the database before accepting requests; a failed connection exits clearly.
 try {
   await testConnection();
-  app.listen(port, () => {
+  server = app.listen(port, () => {
     console.log(`Server is running at http://127.0.0.1:${port}`);
     console.log(`Environment: ${nodeEnv}`);
   });
@@ -79,3 +108,6 @@ try {
   await db.close();
   process.exitCode = 1;
 }
+
+// Expose the listener so isolated checks can shut it down cleanly.
+export { app, server };

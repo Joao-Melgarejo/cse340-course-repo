@@ -274,3 +274,116 @@ main .category-tags li {
 .category-tags a:hover {
   background: #d5e6d8;
 }
+
+/* W04 forms and temporary feedback share the existing site palette. */
+.data-form {
+  max-width: 680px;
+  padding: 24px;
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+}
+.form-group {
+  margin-bottom: 20px;
+}
+.form-group label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 700;
+}
+.form-group input,
+.form-group textarea,
+.form-group select {
+  display: block;
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #73877c;
+  border-radius: 6px;
+  background: #fff;
+  color: var(--ink);
+  font: inherit;
+}
+.form-group textarea {
+  resize: vertical;
+}
+.form-group small {
+  display: block;
+  margin-top: 6px;
+  overflow-wrap: anywhere;
+}
+button {
+  padding: 12px 20px;
+  border: 0;
+  border-radius: 6px;
+  background: var(--green);
+  color: #fff;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+button:hover {
+  background: #104632;
+}
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible,
+button:focus-visible {
+  outline: 3px solid #8b4600;
+  outline-offset: 3px;
+}
+fieldset {
+  margin: 0 0 24px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 16px;
+}
+legend {
+  padding: 0 8px;
+  font-weight: 700;
+}
+.checkbox-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 12px 0;
+}
+.checkbox-row input {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+.flash-messages {
+  width: min(1080px, calc(100% - 40px));
+  margin: 20px auto 0;
+}
+.flash-messages:empty {
+  display: none;
+}
+.alert {
+  max-width: none;
+  padding: 15px;
+  margin-bottom: 12px;
+  border: 1px solid;
+  border-radius: 6px;
+  overflow-wrap: anywhere;
+}
+.alert.success {
+  color: #155724;
+  background: #d4edda;
+  border-color: #92c89e;
+}
+.alert.error {
+  color: #721c24;
+  background: #f8d7da;
+  border-color: #d49da2;
+}
+.alert.warning {
+  color: #665000;
+  background: #fff3cd;
+  border-color: #d6bf78;
+}
+.alert.info {
+  color: #0c5460;
+  background: #d1ecf1;
+  border-color: #8ebec8;
+}
